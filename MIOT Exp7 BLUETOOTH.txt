@@ -1,0 +1,55 @@
+Practical-7 Bluetooth
+🔹 Execution Steps
+1.	Open Arduino IDE on your computer.
+2.	Connect your Arduino UNO via USB.
+3.	Paste this code into a new sketch:
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(2, 3); // RX, TX
+
+void setup() {
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+  Serial.println("Bluetooth ready");
+}
+void loop() {
+  if (BTSerial.available())
+    Serial.write(BTSerial.read());
+  if (Serial.available())
+    BTSerial.write(Serial.read());
+}
+
+NOTE:  CODE IS PRESENT IN THE ARDUINO IDE ALREADY
+	GO TO File → Open → choose “Exp_7”
+
+4.	Upload the code to your UNO (Ctrl + U).
+5.	Open Serial Monitor (Ctrl + Shift + M):
+o	Baud rate: 9600
+o	Line ending: No line ending
+6.	Power your HC-05 (it should already be wired to the UNO).
+o	LED should blink fast (2 blinks per second) = normal mode.
+7.	On your Android phone:
+o	Open Serial Bluetooth Terminal app.
+o	Go to Settings → Devices → “HC-05” → tap Connect.
+o	The LED on the module will change to slow double blink or steady on (connected).
+       
+ 
+8.	Test communication:
+o	In the phone app, type a message → press send → you’ll see it appear in Arduino Serial Monitor.
+o	In Arduino Serial Monitor, type a message → press send → it appears instantly in the phone app.
+
+
+
+
+
+
+
+
+OUTPUT:
+HARDWARE
+ 
+
+SERIAL TERMINAL
+ 
+SERIAL MONITOR
+
+

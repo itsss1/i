@@ -1,0 +1,71 @@
+Practical-4
+Name:- Shubham Sonawane
+Roll no-4401058
+Div-A   Batch-D
+#define BLYNK_TEMPLATE_ID   "TMPL3WKv0Zi_b"
+#define BLYNK_TEMPLATE_NAME "PWM Speed control"
+#define BLYNK_AUTH_TOKEN    "h76QQxBM07VW3mdl9Eu_S9LRdb1XHntw"
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+// Wi-Fi credentials
+char ssid[] = "Chetan";
+char pass[] = "12341234";
+// Motor pins
+const int motorPin1 = D1; // IN1
+const int motorPin2 = D2; // IN2
+const int enablePin = D3; // ENA (PWM)
+// Motor speed variable
+int motorSpeed = 0; // 0-1023 PWM
+// ------------------- Blynk Virtual Pin -------------------
+BLYNK_WRITE(V0) // Slider 0-100
+{
+  int speedPercent = param.asInt();
+  speedPercent = constrain(speedPercent, 0, 100);
+  motorSpeed = map(speedPercent, 0, 100, 0, 1023);
+  Serial.print("Slider received: "); Serial.println(speedPercent);
+  applyMotor();
+}
+// ------------------- Setup & Loop -------------------
+void setup()
+{
+  Serial.begin(115200);
+  pinMode(motorPin1, OUTPUT);
+  pinMode(motorPin2, OUTPUT);
+  pinMode(enablePin, OUTPUT);
+
+  analogWriteRange(1023);
+  analogWriteFreq(1000);
+  // Always forward
+  digitalWrite(motorPin1, HIGH);
+  digitalWrite(motorPin2, LOW);
+  // Start motor stopped
+  analogWrite(enablePin, 0);
+  Serial.println("Connecting to Wi-Fi and Blynk...");
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+}
+void loop()
+{
+  Blynk.run();
+}
+// ------------------- Motor function -------------------
+void applyMotor() {
+  analogWrite(enablePin, motorSpeed);
+  Serial.print("Motor speed (PWM): "); Serial.println(motorSpeed);
+}
+
+
+OUTPUT:
+Serial Monitor-
+ 
+
+
+
+
+
+
+
+
+Control Page:
+Hardware Output:
+ 
